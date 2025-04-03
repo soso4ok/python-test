@@ -1,0 +1,26 @@
+name: CI
+
+on:
+ pull_request:
+   branches:
+     - develop
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check repo
+        uses: actions/checkout@v3
+
+      - name: set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: install requirements
+        run: pip install -r requirements.txt
+
+      - name: run tests
+        run: pytest
+        
+        
+        
