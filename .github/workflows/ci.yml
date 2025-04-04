@@ -35,7 +35,7 @@ jobs:
 
       - name: Update readme
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
 
           BADGE_URL: "https://github.com/${{ github.repository }}/actions/workflows/${{ github.workflow }}.yml/badge.svg"
         run: |
