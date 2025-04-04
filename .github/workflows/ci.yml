@@ -22,3 +22,41 @@ jobs:
 
       - name: Run Tests
         run: pytest
+
+        
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build the project
+        run: |
+
+      - name: Update readme
+        env:
+          GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+
+          BADGE_URL: "https://github.com/${{ github.repository }}/actions/workflows/${{ github.workflow }}.yml/badge.svg"
+        run: |
+
+          BADGE="[![Build Status](${BADGE_URL})](https://github.com/${{ github.repository }}/actions)"
+          
+
+          if grep -q "Build Status" README.md; then
+            echo "Badge already exists. Skipping update"
+          else
+            echo "No  badge found. Adding build status badge to README.md"
+
+            #add readme
+            sed -i "1s;^;${BADGE}\n\n;" README.md
+
+            # Configure git
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+
+            # Commit and push
+            git add README.md
+            git commit -m "Add build status badge to README [skip ci]"
+            git push origin HEAD:${{ github.head_ref }}
+          fi
